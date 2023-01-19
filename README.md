@@ -4,6 +4,18 @@
 > Compilable avec `g++` et `clang`
 
 
+> Note
+> Il ya 500 000 fichiers, chaque fichier contier les info sur un mail,
+> Le dispatcher crer les workers et les fichiers intermediaires,
+> Lorsqu'un worker est crer il connait le fichier ou il ecrit.
+> Ensuite ils communique a chaque 
+
+> get_nproc pour connnaitre le nombre de thread dispo
+
+> On vas fonctionner avec 100 fichier en dev
+
+
+
 L'objectif du projet est d'analyser un corpus d'e-mails pour en extraire des informations. L'analyse doit être parallélisée en limitant le nombre de tâches à un une valeur raisonnable dépendante du nombre de processeurs/threads de la machine.
 
 ## Le corpus d'e-mails Enron
