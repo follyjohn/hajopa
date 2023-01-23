@@ -1,15 +1,18 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
-
-template <typename PAYLOAD>
 class Message
 {
 
-public:
-    virtual void print();
+    public:
+        Message(string uid);
+        Message();
+        ~Message();
+        virtual void run_payload();
+        virtual string get_uid();
+        virtual void set_uid(string uid);
 
-private:
-    PAYLOAD payload;
-    string uid;
+    protected:
+        string uid;
 };

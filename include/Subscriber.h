@@ -8,7 +8,7 @@ class Subscriber {
 public:
     Subscriber(MessageBus* messageBus);
     ~Subscriber();
-    virtual void onNotify(Message<string> message);
+    virtual void onNotify(Message* message);
     virtual void subscribe(Chanel* chanel);
     virtual void unsubscribe(Chanel *chanel);
 

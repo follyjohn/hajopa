@@ -14,7 +14,7 @@ SRCDIR = src
 OBJDIR = dist
 
 ############## Do not change anything from here downwards! #############
-SRC = src/main.cpp
+SRC = src/main.cpp src/Message.cpp src/HMessage.cpp
 OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
 DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
 # UNIX-based OS variables & settings

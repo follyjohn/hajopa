@@ -11,7 +11,7 @@ class Issuer {
     public:
         Issuer(MessageBus* messageBus);
         ~Issuer();
-        virtual void notify(MessageBus* messageBus, Message<string> message);
+        virtual void notify(MessageBus* messageBus, Message* message);
 
     private:
         string uid;

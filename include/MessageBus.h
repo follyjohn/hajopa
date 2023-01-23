@@ -2,7 +2,6 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-using namespace std;
 
 class MessageBus {
 
@@ -11,11 +10,11 @@ class MessageBus {
         ~MessageBus();
         virtual void addChanel(Chanel* chanel);
         virtual void removeChanel(Chanel* chanel);
-        virtual void onGetMessage(Chanel* chanel, Message<string> message);
+        virtual void onGetMessage(Chanel* chanel, Message* message);
 
     private:
         string uid;
         string name;
         vector<Chanel*> chanels;
-        std::queue<std::tuple<Chanel, Message<string>>> messages;
+        std::queue<std::tuple<Chanel, Message>> messages;
 };

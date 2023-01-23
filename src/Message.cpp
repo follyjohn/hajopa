@@ -1,15 +1,33 @@
+#include "../include/Message.h"
 #include <iostream>
 
 using namespace std;
 
-template <typename PAYLOAD>
-class Message
+
+void Message::set_uid(string uid)
 {
+    this->uid = uid;
+}
 
-public:
-    virtual void print();
+string Message::get_uid()
+{
+    return this->uid;
+}
 
-private:
-    PAYLOAD payload;
-    string uid;
-};
+void Message::run_payload()
+{
+    cout << "Message::run_payload()" << endl;
+}
+
+Message::Message(string uid)
+{
+    this->uid = uid;
+}
+
+Message::Message()
+{
+}
+
+Message::~Message()
+{
+}
