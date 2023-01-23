@@ -1,7 +1,7 @@
 #include "../include/MessageBus.h"
-
 #include <iostream>
 #include <queue>
+#include <tuple>
 #include <vector>
 using namespace std;
 
@@ -37,7 +37,7 @@ void MessageBus::removeChannel(Channel *channel)
 }
 
 
-void MessageBus::removeCubscriber(Subscriber *subscriber)
+void MessageBus::removeSubscriber(Subscriber *subscriber)
 {
     for (int i = 0; i < this->subscribers.size(); i++) {
         if (this->subscribers[i] == subscriber) {
@@ -48,13 +48,13 @@ void MessageBus::removeCubscriber(Subscriber *subscriber)
 
 void MessageBus::onGetMessage(Message *message, Channel * channel)
 {
-    this->messagesQueue.push(std::make_tuple(channel, message));
+    this->messagesQueue.push(make_tuple(channel, message));
 }
 
 void MessageBus::onNotify()
 {
     while (!this->messagesQueue.empty()) {
-        std::tuple<Channel*, Message*> message = this->messagesQueue.front();
+        tuple<Channel*, Message*> message = this->messagesQueue.front();
         this->messagesQueue.pop();
         for (int i = 0; i < this->subscribers.size(); i++) {
             for (int j = 0; j < this->subscribers[i]->get_channels().size(); j++) {

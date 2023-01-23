@@ -23,7 +23,7 @@ class MessageBus {
         string uid;
         string name;
         vector<Subscriber*> subscribers;
-        vector<Channel*> chanels;
+        vector<Channel*> channels;
         queue<std::tuple<Channel*, Message*>> messagesQueue;
 };
 

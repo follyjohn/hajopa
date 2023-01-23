@@ -52,5 +52,5 @@ void Issuer::publish(Message* message, Channel* chanel)
 void Issuer::notify()
 {
     cout << "Issuer::notify()" << endl;
-    this->messageBus->notify();
+    this->messageBus->onNotify();
 }

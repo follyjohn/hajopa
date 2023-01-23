@@ -3,22 +3,19 @@
 #include <iostream>
 using namespace std;
 
+
+
 Subscriber::Subscriber()
 {
+    this->channels = vector<Channel*>();
 }
 
-Subscriber::Subscriber(string uid, string name);
+Subscriber::Subscriber(string uid, string name)
 {
     this->uid = uid;
     this->name = name;
-    this->chanels = vector<Channel*>();
+    this->channels = vector<Channel*>();
 }
-
-Subscriber::Subscriber()
-{
-    this->chanels = vector<Channel*>();
-}
-
 
 
 Subscriber::~Subscriber()
@@ -48,14 +45,14 @@ void Subscriber::set_name(string name)
 void Subscriber::subscribe(Channel *chanel)
 {
     cout << "Subscriber: " << this->get_name() << " subscribed to Channel: " << chanel->get_name() << endl;
-    this->chanels.push_back(chanel);
+    this->channels.push_back(chanel);
 }
 
 void Subscriber::unsubscribe(Channel* chanel)
 {
-    for (int i = 0; i < this->chanels.size(); i++) {
-        if (this->chanels[i] == chanel) {
-            this->chanels.erase(this->chanels.begin() + i);
+    for (int i = 0; i < this->channels.size(); i++) {
+        if (this->channels[i] == chanel) {
+            this->channels.erase(this->channels.begin() + i);
         }
     }
 
@@ -71,5 +68,5 @@ void Subscriber::update(Message* message)
 
 vector<Channel*> Subscriber::get_channels()
 {
-    return this->chanels;
+    return this->channels;
 }
