@@ -43,7 +43,14 @@ void Issuer::set_name(string name)
     this->name = name;
 }
 
-void Issuer::notify(Message* message, Channel* chanel)
+void Issuer::publish(Message* message, Channel* chanel)
 {
     cout << "Issuer::notify()" << endl;
+    this->messageBus->publish(message, chanel);
+}
+
+void Issuer::notify()
+{
+    cout << "Issuer::notify()" << endl;
+    this->messageBus->notify();
 }

@@ -14,7 +14,8 @@ class Issuer {
         Issuer(MessageBus* messageBus);
         Issuer(MessageBus* messageBus, string uid, string name);
         ~Issuer();
-        virtual void notify(Message* message, Channel* chanel);
+        virtual void publish(Message* message, Channel* chanel);
+        virtual void notify();
         virtual void set_uid(string uid);
         virtual void set_name(string name);
         virtual string get_uid();

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include "Issuer.h"
+#include "Subscriber.h"
+#include "Channel.h"
 
 #ifndef MESSAGE_BUS_H
 #define MESSAGE_BUS_H
@@ -11,13 +14,20 @@ class MessageBus {
         ~MessageBus();
         virtual void addChanel(Channel* chanel);
         virtual void removeChanel(Channel* chanel);
+        virtual void addIssuer(Issuer* issuer);
+        virtual void removeIssuer(Issuer* issuer);
+        virtual void addSubscriber(Subscriber* subscriber);
+        virtual void removeSubscriber(Subscriber* subscriber);
         virtual void onGetMessage(Channel* chanel, Message* message);
+        virtual void onNotify();
 
     private:
         string uid;
         string name;
+        vector<Issuer*> issuers;
+        vector<Subscriber*> subscribers;
         vector<Channel*> chanels;
-        std::queue<std::tuple<Channel, Message>> messages;
+        queue<std::tuple<Channel*, Message*>> messagesQueue;
 };
 
 #endif
