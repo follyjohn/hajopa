@@ -11,7 +11,9 @@ class MessageBus {
 
     public:
         MessageBus();
+        MessageBus(string uid, string name);
         ~MessageBus();
+        virtual string getName();
         virtual void addChannel(Channel* chanel);
         virtual void removeChannel(Channel* chanel);
         virtual void addSubscriber(Subscriber* subscriber);

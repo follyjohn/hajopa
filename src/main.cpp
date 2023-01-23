@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    MessageBus* messageBus = new MessageBus();
+    MessageBus* messageBus = new MessageBus("mb-1", "Message Bus");
     Channel *johnChannel = new Channel("c-john", "John Inbox Channel");
     Channel *samantaChannel = new Channel("c-samanta", "Samanta Inbox Channel");
     messageBus->addChannel(samantaChannel);
@@ -20,14 +20,21 @@ int main()
 
     Subscriber *sub_samanta = new Subscriber("sub-samanta", "Samanta");
     Subscriber *sub_john = new Subscriber("sub-john", "John");
+    Subscriber *sub_tintin = new Subscriber("sub-tintin", "Tintin");
+
     messageBus->addSubscriber(sub_samanta);
     messageBus->addSubscriber(sub_john);
+    messageBus->addSubscriber(sub_tintin);
 
     sub_samanta->subscribe(samantaChannel);
     sub_john->subscribe(johnChannel);
+    sub_tintin->subscribe(samantaChannel);
 
-    is_john->publish(new HMessage("123", "Hello World"), samantaChannel);
+    is_john->publish(new HMessage("My first message", "Hello everyone"), samantaChannel);
     is_john->notify();
+    is_samanta->publish(new HMessage("My second message", "Hello John"), johnChannel);
+    is_john->notify();
+
 
     return 0;
 }

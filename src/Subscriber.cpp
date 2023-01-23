@@ -50,7 +50,8 @@ void Subscriber::subscribe(Channel *chanel)
 
 void Subscriber::unsubscribe(Channel* chanel)
 {
-    for (int i = 0; i < this->channels.size(); i++) {
+    for (long unsigned int i = 0; i < this->channels.size(); i++)
+    {
         if (this->channels[i] == chanel) {
             this->channels.erase(this->channels.begin() + i);
         }

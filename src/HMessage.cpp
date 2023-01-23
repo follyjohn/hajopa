@@ -10,7 +10,7 @@ HMessage::HMessage(string uid, string content) : Message(uid)
 
 void HMessage::run_payload()
 {
-    cout << "HMessage::run_payload " << this->content << endl;
+    cout << "Running: payload -> " << this->content << endl;
 }
 
 

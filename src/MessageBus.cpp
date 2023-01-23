@@ -12,6 +12,15 @@ MessageBus::MessageBus()
     this->messagesQueue = queue<std::tuple<Channel*, Message*>>();
 }
 
+MessageBus::MessageBus(string uid, string name)
+{
+    this->uid = uid;
+    this->name = name;
+    this->channels = vector<Channel *>();
+    this->subscribers = vector<Subscriber *>();
+    this->messagesQueue = queue<std::tuple<Channel*, Message*>>();
+}
+
 MessageBus::~MessageBus()
 {
 }
@@ -29,7 +38,8 @@ void MessageBus::addSubscriber(Subscriber *subscriber)
 
 void MessageBus::removeChannel(Channel *channel)
 {
-    for (int i = 0; i < this->channels.size(); i++) {
+    for (long unsigned int i = 0; i < this->channels.size(); i++)
+    {
         if (this->channels[i] == channel) {
             this->channels.erase(this->channels.begin() + i);
         }
@@ -39,11 +49,17 @@ void MessageBus::removeChannel(Channel *channel)
 
 void MessageBus::removeSubscriber(Subscriber *subscriber)
 {
-    for (int i = 0; i < this->subscribers.size(); i++) {
+    for (long unsigned int i = 0; i < this->subscribers.size(); i++)
+    {
         if (this->subscribers[i] == subscriber) {
             this->subscribers.erase(this->subscribers.begin() + i);
         }
     }
+}
+
+string MessageBus::getName()
+{
+    return this->name;
 }
 
 void MessageBus::onGetMessage(Message *message, Channel * channel)
@@ -56,8 +72,10 @@ void MessageBus::onNotify()
     while (!this->messagesQueue.empty()) {
         tuple<Channel*, Message*> message = this->messagesQueue.front();
         this->messagesQueue.pop();
-        for (int i = 0; i < this->subscribers.size(); i++) {
-            for (int j = 0; j < this->subscribers[i]->get_channels().size(); j++) {
+        for (long unsigned int i = 0; i < this->subscribers.size(); i++)
+        {
+            for (long unsigned int j = 0; j < this->subscribers[i]->get_channels().size(); j++)
+            {
                 if (this->subscribers[i]->get_channels()[j] == std::get<0>(message)) {
                     this->subscribers[i]->update(std::get<1>(message));
                 }
