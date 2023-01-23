@@ -4,6 +4,7 @@
 #include "../include/Subscriber.h"
 #include "../include/Issuer.h"
 #include "../include/MessageBus.h"
+#include "../include/Worker.h"
 
 using namespace std;
 
@@ -22,19 +23,24 @@ int main()
     Subscriber *sub_john = new Subscriber("sub-john", "John");
     Subscriber *sub_tintin = new Subscriber("sub-tintin", "Tintin");
 
+    Worker *worker = new Worker(WorkerStatus::Stopped, messageBus, "w-1", "Worker 1");
+
     messageBus->addSubscriber(sub_samanta);
     messageBus->addSubscriber(sub_john);
     messageBus->addSubscriber(sub_tintin);
+    messageBus->addSubscriber(worker);
 
     sub_samanta->subscribe(samantaChannel);
     sub_john->subscribe(johnChannel);
     sub_tintin->subscribe(samantaChannel);
+    worker->subscribe(samantaChannel);
 
     is_john->publish(new HMessage("My first message", "Hello everyone"), samantaChannel);
     is_john->notify();
     is_samanta->publish(new HMessage("My second message", "Hello John"), johnChannel);
     is_john->notify();
-
+    worker->publish(new HMessage("Worker message", "Hello totto"), samantaChannel);
+    worker->notify();
 
     return 0;
 }

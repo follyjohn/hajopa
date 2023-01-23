@@ -1,26 +1,25 @@
 #include <iostream>
+#include "Issuer.h"
+#include "Subscriber.h"
 
 using namespace std;
 
 enum class WorkerStatus { Running, Stopped, Paused, Error, Unknown };
 
-class WTask {
-	public:
-		virtual void run() {
-			cout << "WTask::run()" << endl;
-		}
-};
+class  Worker: public Issuer, public Subscriber {
 
-class BaseWorker {
 	private:
 		WorkerStatus status;
-		WTask* task;
 
 	public:
-
-
-		virtual void work(){
-			cout << "BaseWorker::work()" << endl;
-		}
+		Worker();
+        Worker(WorkerStatus status, MessageBus * messageBus, string uid, string name);
+        ~Worker();
+        virtual void run();
+        virtual void stop();
+        virtual void pause();
+        virtual void resume();
+        virtual WorkerStatus get_status();
+        virtual void set_status(WorkerStatus status);
 
 };

@@ -1,26 +1,53 @@
 #include <iostream>
-
+#include "../include/Worker.h"
 using namespace std;
 
-enum class WorkerStatus { Running, Stopped, Paused, Error, Unknown };
+Worker::Worker()
+{
+    this->status = WorkerStatus::Unknown;
+}
 
-class WTask {
-	public:
-		virtual void run() {
-			cout << "WTask::run()" << endl;
-		}
-};
+Worker::Worker(WorkerStatus status, MessageBus * messageBus, string uid, string name) : Issuer(messageBus, uid, name), Subscriber( uid, name)
+{
+    this->status = status;
+}
 
-class BaseWorker {
-	private:
-		WorkerStatus status;
-		WTask* task;
+Worker::~Worker()
+{
+}
 
-	public:
+void Worker::run()
+{
+    this->status = WorkerStatus::Running;
+    cout << "Worker is running" << endl;
+
+}
+
+void Worker::stop()
+{
+    this->status = WorkerStatus::Stopped;
+    cout << "Worker is stopped" << endl;
+}
 
 
-		virtual void work(){
-			cout << "BaseWorker::work()" << endl;
-		}
+void Worker::pause()
+{
+    this->status = WorkerStatus::Paused;
+    cout << "Worker is paused" << endl;
+}
 
-};
+void Worker::resume()
+{
+    this->status = WorkerStatus::Running;
+    cout << "Worker is resumed" << endl;
+}
+
+WorkerStatus Worker::get_status()
+{
+    return this->status;
+}
+
+void Worker::set_status(WorkerStatus status)
+{
+    this->status = status;
+}
