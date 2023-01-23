@@ -1,9 +1,6 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-#include "Issuer.h"
-#include "Subscriber.h"
-#include "Channel.h"
 
 #ifndef MESSAGE_BUS_H
 #define MESSAGE_BUS_H

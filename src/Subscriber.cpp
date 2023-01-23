@@ -1,9 +1,9 @@
 #include "../include/Subscriber.h"
-#include "../include/MessageBus.h"
+
 #include <iostream>
 using namespace std;
 
-Subscriber::Subscriber(MessageBus *messageBus, string uid, string name);
+Subscriber::Subscriber(MessageBus* messageBus, string uid, string name);
 {
     this->uid = uid;
     this->name = name;
@@ -11,7 +11,7 @@ Subscriber::Subscriber(MessageBus *messageBus, string uid, string name);
     this->chanels = vector<Channel*>();
 }
 
-Subscriber::Subscriber(MessageBus *messageBus)
+Subscriber::Subscriber(MessageBus* messageBus)
 {
     this->messageBus = messageBus;
     this->chanels = vector<Channel*>();

@@ -2,7 +2,6 @@
 #include <vector>
 #include "Message.h"
 #include "MessageBus.h"
-#include "Channel.h"
 using namespace std;
 
 #ifndef SUBSCRIBER_H
