@@ -1,15 +1,39 @@
+#include "../include/Channel.h"
 #include <iostream>
 
 using namespace std;
 
-class Chanel {
+Channel::Channel(string uid, string name)
+{
+    this->uid = uid;
+    this->name = name;
+}
 
-    public:
-        Chanel();
-        ~Chanel();
 
+Channel::Channel()
+{
+}
 
-    private:
-        string uid;
-        string name;
-};
+Channel::~Channel()
+{
+}
+
+string Channel::get_uid()
+{
+    return this->uid;
+}
+
+void Channel::set_uid(string uid)
+{
+    this->uid = uid;
+}
+
+string Channel::get_name()
+{
+    return this->name;
+}
+
+void Channel::set_name(string name)
+{
+    this->name = name;
+}

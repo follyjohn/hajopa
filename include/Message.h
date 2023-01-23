@@ -1,6 +1,7 @@
 #include <iostream>
-#include <string>
 
+#ifndef MESSAGE_H
+#define MESSAGE_H
 using namespace std;
 class Message
 {
@@ -16,3 +17,5 @@ class Message
     protected:
         string uid;
 };
+
+#endif

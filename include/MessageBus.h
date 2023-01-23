@@ -1,20 +1,23 @@
-#include "Chanel.h"
 #include <iostream>
 #include <queue>
 #include <vector>
 
+#ifndef MESSAGE_BUS_H
+#define MESSAGE_BUS_H
 class MessageBus {
 
     public:
         MessageBus();
         ~MessageBus();
-        virtual void addChanel(Chanel* chanel);
-        virtual void removeChanel(Chanel* chanel);
-        virtual void onGetMessage(Chanel* chanel, Message* message);
+        virtual void addChanel(Channel* chanel);
+        virtual void removeChanel(Channel* chanel);
+        virtual void onGetMessage(Channel* chanel, Message* message);
 
     private:
         string uid;
         string name;
-        vector<Chanel*> chanels;
-        std::queue<std::tuple<Chanel, Message>> messages;
+        vector<Channel*> chanels;
+        std::queue<std::tuple<Channel, Message>> messages;
 };
+
+#endif

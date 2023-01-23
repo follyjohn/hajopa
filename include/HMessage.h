@@ -1,6 +1,8 @@
 #include "../include/Message.h"
 #include <iostream>
 
+#ifndef HMESSAGE_H
+#define HMESSAGE_H
 
 class HMessage :public Message
 {
@@ -13,3 +15,5 @@ class HMessage :public Message
     private:
         string content;
 };
+
+#endif
