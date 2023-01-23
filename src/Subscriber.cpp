@@ -3,23 +3,23 @@
 #include <iostream>
 using namespace std;
 
-Subscriber::Subscriber(MessageBus* messageBus, string uid, string name);
+Subscriber::Subscriber()
+{
+}
+
+Subscriber::Subscriber(string uid, string name);
 {
     this->uid = uid;
     this->name = name;
-    this->messageBus = messageBus;
-    this->chanels = vector<Channel*>();
-}
-
-Subscriber::Subscriber(MessageBus* messageBus)
-{
-    this->messageBus = messageBus;
     this->chanels = vector<Channel*>();
 }
 
 Subscriber::Subscriber()
 {
+    this->chanels = vector<Channel*>();
 }
+
+
 
 Subscriber::~Subscriber()
 {
@@ -67,4 +67,9 @@ void Subscriber::update(Message* message)
 {
     cout << "Subscriber: " << this->get_name() << " received message: " << message->get_uid() << endl;
     message->run_payload();
+}
+
+vector<Channel*> Subscriber::get_channels()
+{
+    return this->chanels;
 }

@@ -4,7 +4,7 @@
 #ifndef HMESSAGE_H
 #define HMESSAGE_H
 
-class HMessage :public Message
+class HMessage :virtual public Message
 {
     public:
         HMessage();

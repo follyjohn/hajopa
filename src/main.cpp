@@ -16,19 +16,17 @@ int main()
     messageBus->addChannel(johnChannel);
 
     Issuer *is_samanta = new Issuer(messageBus, "is-samanta", "Samanta");
-    Issuer *is_john = new Issuer(messageBus, "is-john", "Samanta")
-    messageBus->addIssuer(is_john);
-    messageBus->addIssuer(is_samanta);
+    Issuer *is_john = new Issuer(messageBus, "is-john", "Samanta");
 
-    Subscriber *sub_samanta = new Subscriber(messageBus, "sub-samanta", "Samanta");
-    Subscriber *sub_john = new Subscriber(messageBus, "sub-john", "John");
+    Subscriber *sub_samanta = new Subscriber("sub-samanta", "Samanta");
+    Subscriber *sub_john = new Subscriber("sub-john", "John");
     messageBus->addSubscriber(sub_samanta);
     messageBus->addSubscriber(sub_john);
 
-    sub_samanta->subscribe(samataChannel);
+    sub_samanta->subscribe(samantaChannel);
     sub_john->subscribe(johnChannel);
 
-    is_john->publish(samataChannel, new HMessage("123", "Hello World"));
+    is_john->publish(new HMessage("123", "Hello World"), samantaChannel);
     is_john->notify();
 
     return 0;

@@ -8,7 +8,6 @@ using namespace std;
 MessageBus::MessageBus()
 {
     this->channels = vector<Channel *>();
-    this->issuers = vector<Issuer *>();
     this->subscribers = vector<Subscriber *>();
     this->messagesQueue = queue<std::tuple<Channel*, Message*>>();
 }
@@ -17,22 +16,18 @@ MessageBus::~MessageBus()
 {
 }
 
-void MessageBus::add_channel(Channel *channel)
+void MessageBus::addChannel(Channel *channel)
 {
     this->channels.push_back(channel);
 }
 
-void MessageBus::add_issuer(Issuer *issuer)
-{
-    this->issuers.push_back(issuer);
-}
 
-void MessageBus::add_subscriber(Subscriber *subscriber)
+void MessageBus::addSubscriber(Subscriber *subscriber)
 {
     this->subscribers.push_back(subscriber);
 }
 
-void MessageBus::remove_channel(Channel *channel)
+void MessageBus::removeChannel(Channel *channel)
 {
     for (int i = 0; i < this->channels.size(); i++) {
         if (this->channels[i] == channel) {
@@ -41,16 +36,8 @@ void MessageBus::remove_channel(Channel *channel)
     }
 }
 
-void MessageBus::remove_issuer(Issuer *issuer)
-{
-    for (int i = 0; i < this->issuers.size(); i++) {
-        if (this->issuers[i] == issuer) {
-            this->issuers.erase(this->issuers.begin() + i);
-        }
-    }
-}
 
-void MessageBus::remove_subscriber(Subscriber *subscriber)
+void MessageBus::removeCubscriber(Subscriber *subscriber)
 {
     for (int i = 0; i < this->subscribers.size(); i++) {
         if (this->subscribers[i] == subscriber) {
@@ -59,7 +46,7 @@ void MessageBus::remove_subscriber(Subscriber *subscriber)
     }
 }
 
-void MessageBus::onGetMessage(Channel *channel, Message *message)
+void MessageBus::onGetMessage(Message *message, Channel * channel)
 {
     this->messagesQueue.push(std::make_tuple(channel, message));
 }

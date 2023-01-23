@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Message.h"
-#include "MessageBus.h"
+#include "Channel.h"
 using namespace std;
 
 #ifndef SUBSCRIBER_H
@@ -9,13 +9,13 @@ using namespace std;
 
 class Subscriber {
 public:
-    Subscriber(MessageBus* messageBus);
-    Subscriber(MessageBus* messageBus, string uid, string name);
     Subscriber();
+    Subscriber(string uid, string name);
     ~Subscriber();
     virtual void update(Message* message);
     virtual void subscribe(Channel* chanel);
     virtual void unsubscribe(Channel* chanel);
+    virtual vector<Channel*> get_channels();
     virtual void set_uid(string uid);
     virtual void set_name(string name);
     virtual string get_uid();
@@ -24,7 +24,6 @@ public:
 private:
     string uid;
     string name;
-    MessageBus* messageBuses;
     vector<Channel*> chanels;
 };
 
