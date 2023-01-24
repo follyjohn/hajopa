@@ -1,10 +1,12 @@
-#include <iostream>
-#include "../include/HMessage.h"
 #include "../include/Channel.h"
-#include "../include/Subscriber.h"
+#include "../include/HMessage.h"
 #include "../include/Issuer.h"
 #include "../include/MessageBus.h"
+#include "../include/Subscriber.h"
 #include "../include/Worker.h"
+#include <iostream>
+#include <thread>
+
 
 using namespace std;
 
