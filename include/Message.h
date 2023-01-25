@@ -9,7 +9,7 @@ class Message
         Message(string uid);
         Message();
         ~Message();
-        virtual void run_payload();
+        virtual void run_payload() = 0;
         virtual string get_uid();
         virtual void set_uid(string uid);
 
