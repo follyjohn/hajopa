@@ -12,7 +12,7 @@ using namespace std;
 
 int main()
 {
-    MessageBus* messageBus = new MessageBus("mb-1", "Message Bus");
+    MessageBus *messageBus = new MessageBus("mb-1", "Message Bus");
     Channel *johnChannel = new Channel("c-john", "John Inbox Channel");
     Channel *samantaChannel = new Channel("c-samanta", "Samanta Inbox Channel");
     messageBus->addChannel(samantaChannel);
