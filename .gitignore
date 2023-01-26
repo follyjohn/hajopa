@@ -9,6 +9,9 @@
 ################################
 build/
 html/
+maildir/
+devmaildir/
+testmaildir/
 
 ################################
 ############ C/C++ #############
@@ -143,3 +146,7 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+
+*.tar.gz
+*.zip
+*.7z
