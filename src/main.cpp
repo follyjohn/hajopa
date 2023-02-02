@@ -12,14 +12,14 @@ using namespace std;
 
 
 void sayHello(Issuer *iss, Channel *chan){
-    iss->publish(new HMessage("My first message from fucn", "Hello everyone"), chan);
+    iss->publish(new HMessage("My first message from thread", "Hello everyone"), chan);
     iss->notify();
 }
 
 
 int main()
 {
-    MessageBus* messageBus = new MessageBus("mb-1", "Message Bus");
+    MessageBus* messageBus = new MessageBus("mb-1", "Message Box");
     Channel *johnChannel = new Channel("c-john", "John Inbox Channel");
     Channel *samantaChannel = new Channel("c-samanta", "Samanta Inbox Channel");
     messageBus->addChannel(samantaChannel);
