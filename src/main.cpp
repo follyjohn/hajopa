@@ -43,6 +43,20 @@ int main()
     is_john->notify();
     worker->publish(new HMessage("Worker message", "Hello totto"), samantaChannel);
     worker->notify();
+    // vector worjer = vector();
+
+    // for(int i = 0; i < 10; i++)
+    // {
+    //     worjer.push_back(new Worker(WorkerStatus::Stopped, messageBus, "w-" + to_string(i), "Worker " + to_string(i)));
+    // }
+
+    // vecort worker = vector();
+
+    // for (file in boo)
+    // {
+    //     select worker = worelr;
+    //     dispater->pubish(new HMessage(runfunction, file, channnel))
+    // }
 
     return 0;
 }

@@ -1,6 +1,7 @@
 #include "../include/Subscriber.h"
 
 #include <iostream>
+#include <thread>
 using namespace std;
 
 
@@ -8,6 +9,9 @@ using namespace std;
 Subscriber::Subscriber()
 {
     this->channels = vector<Channel*>();
+    // start a new thread for this subscriber
+    // this->thread = new thread();
+
 }
 
 Subscriber::Subscriber(string uid, string name)

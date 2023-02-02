@@ -1,9 +1,12 @@
-#include <iostream>
-#include <queue>
-#include <vector>
 #include "Channel.h"
 #include "Message.h"
 #include "Subscriber.h"
+#include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <queue>
+#include <thread>
+#include <vector>
 
 #ifndef MESSAGE_BUS_H
 #define MESSAGE_BUS_H
@@ -27,6 +30,9 @@ class MessageBus {
         vector<Subscriber*> subscribers;
         vector<Channel*> channels;
         queue<std::tuple<Channel*, Message*>> messagesQueue;
+        mutex message_queu_mutex;
+        condition_variable cv;
+        bool ready = false;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include <vector>
 #include "Message.h"
 #include "Channel.h"
+// #include <iostream>
+// #include <thread>
 using namespace std;
 
 #ifndef SUBSCRIBER_H
@@ -26,6 +28,7 @@ class Subscriber {
         string uid;
         string name;
         vector<Channel*> channels;
+        // thread *thread;
 };
 
 #endif

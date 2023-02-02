@@ -31,4 +31,4 @@ HMessage::HMessage()
 {
 }
 
-// https: //stackoverflow.com/questions/266168/simple-example-of-threading-in-c
+// https://stackoverflow.com/questions/266168/simple-example-of-threading-in-c

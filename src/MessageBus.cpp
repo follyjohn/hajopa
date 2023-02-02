@@ -4,12 +4,16 @@
 #include <tuple>
 #include <vector>
 using namespace std;
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 
 MessageBus::MessageBus()
 {
     this->channels = vector<Channel *>();
     this->subscribers = vector<Subscriber *>();
     this->messagesQueue = queue<std::tuple<Channel*, Message*>>();
+
 }
 
 MessageBus::MessageBus(string uid, string name)
