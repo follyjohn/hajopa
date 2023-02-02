@@ -10,6 +10,13 @@
 
 using namespace std;
 
+
+void sayHello(Issuer *iss, Channel *chan){
+    iss->publish(new HMessage("My first message from fucn", "Hello everyone"), chan);
+    iss->notify();
+}
+
+
 int main()
 {
     MessageBus* messageBus = new MessageBus("mb-1", "Message Bus");
@@ -37,12 +44,20 @@ int main()
     sub_tintin->subscribe(samantaChannel);
     worker->subscribe(samantaChannel);
 
-    is_john->publish(new HMessage("My first message", "Hello everyone"), samantaChannel);
-    is_john->notify();
+    thread tone(sayHello, is_john, samantaChannel);
+    thread ttwo(sayHello, is_samanta, johnChannel);
+    thread tthree(sayHello, is_samanta, johnChannel);
+    thread tfour(sayHello, is_samanta, johnChannel);
+    thread tfive(sayHello, is_samanta, johnChannel);
     is_samanta->publish(new HMessage("My second message", "Hello John"), johnChannel);
     is_john->notify();
     worker->publish(new HMessage("Worker message", "Hello totto"), samantaChannel);
     worker->notify();
+    tone.join();
+    ttwo.join();
+    tthree.join();
+    tfour.join();
+    tfive.join();
     // vector worjer = vector();
 
     // for(int i = 0; i < 10; i++)

@@ -13,7 +13,6 @@ MessageBus::MessageBus()
     this->channels = vector<Channel *>();
     this->subscribers = vector<Subscriber *>();
     this->messagesQueue = queue<std::tuple<Channel*, Message*>>();
-
 }
 
 MessageBus::MessageBus(string uid, string name)
@@ -27,6 +26,11 @@ MessageBus::MessageBus(string uid, string name)
 
 MessageBus::~MessageBus()
 {
+    this->channels.clear();
+    this->subscribers.clear();
+    while (!this->messagesQueue.empty()) {
+        this->messagesQueue.pop();
+    }
 }
 
 void MessageBus::addChannel(Channel *channel)
@@ -68,11 +72,20 @@ string MessageBus::getName()
 
 void MessageBus::onGetMessage(Message *message, Channel * channel)
 {
+    std::unique_lock<std::mutex> lck(this->message_queu_mutex);
+    this->ready = true;
+    this->cv.wait(lck, [this] { return this->ready; });
     this->messagesQueue.push(make_tuple(channel, message));
+    this->ready = false;
+    lck.unlock();
+    this->cv.notify_one();
 }
 
 void MessageBus::onNotify()
 {
+    std::unique_lock<std::mutex> lck(message_queu_mutex);
+    this->ready = true;
+    this->cv.wait(lck, [this] { return this->ready; });
     while (!this->messagesQueue.empty()) {
         tuple<Channel*, Message*> message = this->messagesQueue.front();
         this->messagesQueue.pop();
@@ -86,4 +99,7 @@ void MessageBus::onNotify()
             }
         }
     }
+    this->ready = false;
+    lck.unlock();
+    this->cv.notify_one();
 }
