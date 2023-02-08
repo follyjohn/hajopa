@@ -4,84 +4,17 @@
 #include "../include/MessageBus.h"
 #include "../include/Subscriber.h"
 #include "../include/Worker.h"
+#include "../include/Broker.h"
 #include <bits/stdc++.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <thread>
+#include "./utils.cpp"
 
 
 using namespace std;
 
-
-void LPSArray(std::string pattern, int M, std::vector<int> lps)
-{
-
-    int len = 0;
-
-    lps[0] = 0;
-    int i = 1;
-    while (i < M)
-    {
-        if (pattern[i] == pattern[len])
-        {
-            len++;
-            lps[i] = len;
-            i++;
-        }
-        else
-        {
-
-            if (len != 0)
-            {
-                len = lps[len - 1];
-            }
-            else
-            {
-                lps[i] = 0;
-                i++;
-            }
-        }
-    }
-}
-
-int KMPSearch(std::string pattern, std::string txt)
-{
-    int M = pattern.length();
-    int N = txt.length();
-
-    std::vector<int> lps(M);
-
-    LPSArray(pattern, M, lps);
-
-    int i = 0;
-    int j = 0;
-    int count = 0;
-    vector<int> indexes;
-    while ((N - i) >= (M - j))
-    {
-        if (pattern[j] == txt[i])
-        {
-            j++;
-            i++;
-        }
-
-        if (j == M)
-        {
-            count++;
-            j = lps[j - 1];
-        }
-
-        else if (i < N && pattern[j] != txt[i])
-        {
-            if (j != 0)
-                j = lps[j - 1];
-            else
-                i = i + 1;
-        }
-    }
-    return count;
-}
 
 void reduceIntermediaryFile(string filename, string newfile)
 {
@@ -202,66 +135,59 @@ int main()
     time(&start);
 
     MessageBus *messageBus = new MessageBus("mb-1", "Message Box");
-    Channel *johnChannel = new Channel("c-john", "John Inbox Channel");
-    Channel *samantaChannel = new Channel("c-samanta", "Samanta Inbox Channel");
-    messageBus->addChannel(samantaChannel);
-    messageBus->addChannel(johnChannel);
+    // Channel *johnChannel = new Channel("c-john", "John Inbox Channel");
+    // Channel *samantaChannel = new Channel("c-samanta", "Samanta Inbox Channel");
+    // messageBus->addChannel(samantaChannel);
+    // messageBus->addChannel(johnChannel);
 
-    Issuer *is_samanta = new Issuer(messageBus, "is-samanta", "Samanta");
-    Issuer *is_john = new Issuer(messageBus, "is-john", "Samanta");
+    // Issuer *is_samanta = new Issuer(messageBus, "is-samanta", "Samanta");
+    // Issuer *is_john = new Issuer(messageBus, "is-john", "Samanta");
 
-    Subscriber *sub_samanta = new Subscriber("sub-samanta", "Samanta");
-    Subscriber *sub_john = new Subscriber("sub-john", "John");
-    Subscriber *sub_tintin = new Subscriber("sub-tintin", "Tintin");
+    // Subscriber *sub_samanta = new Subscriber("sub-samanta", "Samanta");
+    // Subscriber *sub_john = new Subscriber("sub-john", "John");
+    // Subscriber *sub_tintin = new Subscriber("sub-tintin", "Tintin");
 
-    Worker *worker = new Worker(WorkerStatus::Stopped, messageBus, "w-1", "Worker 1");
+    // Worker *worker = new Worker(WorkerStatus::Stopped, messageBus, "w-1", "Worker 1");
 
-    messageBus->addSubscriber(sub_samanta);
-    messageBus->addSubscriber(sub_john);
-    messageBus->addSubscriber(sub_tintin);
-    messageBus->addSubscriber(worker);
+    // messageBus->addSubscriber(sub_samanta);
+    // messageBus->addSubscriber(sub_john);
+    // messageBus->addSubscriber(sub_tintin);
+    // messageBus->addSubscriber(worker);
 
-    sub_samanta->subscribe(samantaChannel);
-    sub_john->subscribe(johnChannel);
-    sub_tintin->subscribe(samantaChannel);
-    worker->subscribe(samantaChannel);
+    // sub_samanta->subscribe(samantaChannel);
+    // sub_john->subscribe(johnChannel);
+    // sub_tintin->subscribe(samantaChannel);
+    // worker->subscribe(samantaChannel);
 
-    thread tone(sayHello, is_john, samantaChannel);
-    thread ttwo(sayHello, is_samanta, johnChannel);
-    thread tthree(sayHello, is_samanta, johnChannel);
-    thread tfour(sayHello, is_samanta, johnChannel);
-    thread tfive(sayHello, is_samanta, johnChannel);
-    is_samanta->publish(new HMessage("My second message", "Hello John"), johnChannel);
-    is_john->notify();
-    worker->publish(new HMessage("Worker message", "Hello totto"), samantaChannel);
-    worker->notify();
-    tone.join();
-    ttwo.join();
-    tthree.join();
-    tfour.join();
-    tfive.join();
-    // vector worjer = vector();
+    // thread tone(sayHello, is_john, samantaChannel);
+    // thread ttwo(sayHello, is_samanta, johnChannel);
+    // thread tthree(sayHello, is_samanta, johnChannel);
+    // thread tfour(sayHello, is_samanta, johnChannel);
+    // thread tfive(sayHello, is_samanta, johnChannel);
+    // is_samanta->publish(new HMessage("My second message", "Hello John"), johnChannel);
+    // is_john->notify();
+    // worker->publish(new HMessage("Worker message", "Hello totto"), samantaChannel);
+    // worker->notify();
+    // tone.join();
+    // ttwo.join();
+    // tthree.join();
+    // tfour.join();
+    // tfive.join();
 
-    // for(int i = 0; i < 10; i++)
-    // {
-    //     worjer.push_back(new Worker(WorkerStatus::Stopped, messageBus, "w-" + to_string(i), "Worker " + to_string(i)));
-    // }
+    // writeIntermediaryFile("fileWriter/test.txt");
 
-    // vecort worker = vector();
+    // reduceIntermediaryFile("fileWriter/test.txt", "fileWriter/newfile.txt");
 
-    // for (file in boo)
-    // {
-    //     select worker = worelr;
-    //     dispater->pubish(new HMessage(runfunction, file, channnel))
-    // }
 
-    writeIntermediaryFile("fileWriter/test.txt");
 
-    reduceIntermediaryFile("fileWriter/test.txt", "fileWriter/newfile.txt");
+    Broker *broker = new Broker(messageBus , "broker-1", "Broker 1");
+    messageBus->addSubscriber(broker);
+    broker->generate_tasks("maildir");
+    broker->test_genereate_interfile();
 
     time(&end);
     double time_taken = double(end - start);
-    cout << "Time taken by program is : " << fixed << time_taken << setprecision(5) << " sec ";
+    cout << "Time taken by program is : " << fixed << time_taken << setprecision(5) << " sec \n";
 
     return 0;
 }

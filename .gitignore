@@ -123,6 +123,7 @@ bld/
 *.pidb
 *.svclog
 *.scc
+*.txt
 
 # Chutzpah Test files
 _Chutzpah*
@@ -150,3 +151,5 @@ ipch/
 *.tar.gz
 *.zip
 *.7z
+
+hajopa
