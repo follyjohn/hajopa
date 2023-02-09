@@ -1,5 +1,5 @@
 #include "Channel.h"
-#include "Message.h"
+#include "HMessage.h"
 #include "Subscriber.h"
 #include <condition_variable>
 #include <iostream>
@@ -21,7 +21,7 @@ class MessageBus {
         virtual void removeChannel(Channel* chanel);
         virtual void addSubscriber(Subscriber* subscriber);
         virtual void removeSubscriber(Subscriber* subscriber);
-        virtual void onGetMessage(Message *message, Channel *chanel);
+        virtual void onGetMessage(HMessage *message, Channel *chanel);
         virtual void onNotify();
 
     private:
@@ -29,7 +29,7 @@ class MessageBus {
         string name;
         vector<Subscriber*> subscribers;
         vector<Channel*> channels;
-        queue<std::tuple<Channel*, Message*>> messagesQueue;
+        queue<std::tuple<Channel*, HMessage*>> messagesQueue;
         mutex message_queu_mutex;
         condition_variable cv;
         bool ready = false;

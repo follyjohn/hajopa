@@ -26,7 +26,7 @@ Subscriber::~Subscriber()
 {
 }
 
-string Subscriber::get_uid()
+string Subscriber::get_sub_uid()
 {
     return this->uid;
 }
@@ -36,7 +36,7 @@ void Subscriber::set_uid(string uid)
     this->uid = uid;
 }
 
-string Subscriber::get_name()
+string Subscriber::get_sub_name()
 {
     return this->name;
 }
@@ -48,7 +48,7 @@ void Subscriber::set_name(string name)
 
 void Subscriber::subscribe(Channel *chanel)
 {
-    cout << "Subscriber: " << this->get_name() << " subscribed to Channel: " << chanel->get_name() << endl;
+    cout << "Subscriber: " << this->get_sub_name() << " subscribed to Channel: " << chanel->get_name() << endl;
     this->channels.push_back(chanel);
 }
 
@@ -61,14 +61,13 @@ void Subscriber::unsubscribe(Channel* chanel)
         }
     }
 
-    cout << "Subscriber: " << this->get_name() << " unsubscribed from Channel: " << chanel->get_name() << endl;
+    cout << "Subscriber: " << this->get_sub_name() << " unsubscribed from Channel: " << chanel->get_name() << endl;
 }
 
 
-void Subscriber::update(Message* message)
+void Subscriber::update(HMessage* message)
 {
-    cout << "Subscriber: " << this->get_name() << " received message: " << message->get_uid() << endl;
-    message->run_payload();
+    cout << "Subscriber: " << this->get_sub_name() << " received message: " << message->get_content() << endl;
 }
 
 vector<Channel*> Subscriber::get_channels()

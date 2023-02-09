@@ -5,7 +5,7 @@
 # Compiler settings - Can be customized.
 CC = g++
 CXXFLAGS = -std=c++17 -lstdc++fs
-LDFLAGS =
+LDFLAGS = -lpthread -pthread
 
 # Makefile settings - Can be customized.
 APPNAME = hajopa
@@ -14,7 +14,7 @@ SRCDIR = src
 OBJDIR = dist
 
 ############## Do not change anything from here downwards! #############
-SRC = src/main.cpp src/Message.cpp src/HMessage.cpp src/Channel.cpp src/Issuer.cpp src/Subscriber.cpp src/MessageBus.cpp src/Worker.cpp
+SRC = src/main.cpp src/Message.cpp src/HMessage.cpp src/Channel.cpp src/Issuer.cpp src/Subscriber.cpp src/MessageBus.cpp src/Worker.cpp src/Broker.cpp
 OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
 DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
 # UNIX-based OS variables & settings
@@ -73,6 +73,11 @@ cleanw:
 .PHONY: cleandepw
 cleandepw:
 	$(DEL) $(DEP)
+
+# Clean all files with the extension .txt
+.PHONY: cleantxt
+cleantxt:
+	find . -name "*.txt" -type f -delete
 
 #---------------------------------
 # IMPLICITE TARGETS RULLES
