@@ -3,32 +3,41 @@
 #include <iostream>
 
 using namespace std;
-HMessage::HMessage(string uid, string content) : Message(uid)
-{
-    this->content = content;
-    this->senderChannel = NULL;
-}
 
-HMessage::HMessage(string uid, string content, Channel *senderChannel) : Message(uid)
+HMessage::HMessage(string content, Channel *senderChannel)
 {
     this->content = content;
     this->senderChannel = senderChannel;
 }
 
+HMessage::HMessage(string content)
+{
+    this->content = content;
+}
 
 void HMessage::run_payload()
 {
     cout << "Running: payload -> " << this->content << endl;
-    if(this->senderChannel != NULL)
-    {
-
-    }
 
 }
 
 
 HMessage::HMessage()
 {
+}
+
+HMessage::~HMessage()
+{
+}
+
+string HMessage::get_content()
+{
+    return this->content;
+}
+
+Channel* HMessage::get_sender_channel()
+{
+    return this->senderChannel;
 }
 
 // https://stackoverflow.com/questions/266168/simple-example-of-threading-in-c

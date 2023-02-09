@@ -124,7 +124,7 @@ void writeIntermediaryFile(string filename) //, string filepath)
 
 void sayHello(Issuer *iss, Channel *chan)
 {
-    iss->publish(new HMessage("My first message from thread", "Hello everyone"), chan);
+    iss->publish(new HMessage("Hello everyone"), chan);
     iss->notify();
 }
 
@@ -181,9 +181,67 @@ int main()
 
 
     Broker *broker = new Broker(messageBus , "broker-1", "Broker 1");
+    Channel *bkchannel = new Channel("c-bk", "Broker Inbox Channel");
     messageBus->addSubscriber(broker);
-    broker->generate_tasks("maildir");
-    broker->test_genereate_interfile();
+    // broker->generate_tasks("maildir");
+    broker->subscribe(bkchannel);
+
+    map<Worker *, Channel*> worker_map;
+
+    for (int i = 0; i < 30; i++)
+    {
+        Worker *worker = new Worker(WorkerStatus::Stopped, messageBus, "w-" + to_string(i), "Worker " + to_string(i), "inter_file_" + to_string(i) + ".txt");
+        messageBus->addSubscriber(worker);
+        Channel *workerChannel = new Channel("c-w-" + to_string(i), "Worker " + to_string(i) + " Inbox Channel");
+        worker->subscribe(workerChannel);
+        worker_map[worker] = workerChannel;
+    }
+
+    // run workers in parallel
+    // while (broker->get_tasks_size() > 0)
+    // {
+    //     for (auto &pair : worker_map)
+    //     {
+    //         if (pair.first->get_status() == WorkerStatus::Stopped)
+    //         {
+    //             broker->publish(new HMessage(broker->get_task(), bkchannel), pair.second);
+    //             broker->notify();
+    //         }
+    //     }
+    // }
+
+    // wait for workers to finish
+    while (true)
+    {
+        bool all_workers_stopped = true;
+        for (auto &pair : worker_map)
+        {
+            if (pair.first->get_status() == WorkerStatus::Running)
+            {
+                all_workers_stopped = false;
+                break;
+            }
+        }
+        if (all_workers_stopped)
+        {
+            break;
+        }
+    }
+
+    vector<string> intermediary_files;
+    for (int i = 0; i < 30; i++)
+    {
+        intermediary_files.push_back("inter_file_" + to_string(i) + ".txt");
+    }
+
+    // reduce intermediary files
+    broker->join_intermediary_files(intermediary_files, "mega_file.txt");
+
+    broker->reduce_intermediary_file("mega_file.txt", "final_file.txt");
+
+
+    // broker->test_genereate_interfile();
+    // broker->reduce_intermediary_file("./inter.txt", "./finalc.txt");
 
     time(&end);
     double time_taken = double(end - start);

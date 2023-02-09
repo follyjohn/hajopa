@@ -1,14 +1,19 @@
-#include <iostream>
 #include "../include/Worker.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <thread>
 using namespace std;
 
-Worker::Worker()
+Worker::Worker(): Issuer(), Subscriber()
 {
     this->status = WorkerStatus::Unknown;
 }
 
-Worker::Worker(WorkerStatus status, MessageBus * messageBus, string uid, string name) : Issuer(messageBus, uid, name), Subscriber( uid, name)
+Worker::Worker(WorkerStatus status, MessageBus *messageBus, string uid, string name, string intermediary_file)
+    : Issuer(messageBus, uid, name), Subscriber(uid, name)
 {
+    this->intermediary_file = intermediary_file;
     this->status = status;
 }
 
@@ -50,4 +55,55 @@ WorkerStatus Worker::get_status()
 void Worker::set_status(WorkerStatus status)
 {
     this->status = status;
+}
+
+void Worker::update(HMessage *message)
+{
+    cout << "Worker: " << this->get_sub_name() << " received message: " << message->get_content() << endl;
+    this->run();
+    this->run_task(message->get_content());
+    this->stop();
+    this->publish(new HMessage(message->get_content() + " finish"), message->get_sender_channel());
+    this->notify();
+    // wait for new call from broker
+}
+
+    void Worker::run_task(string task)
+{
+    cout << "Worker " << this->get_sub_name() <<" starts running task" << endl;
+    ofstream fileWriter(this->intermediary_file, ios::app);
+    ifstream fileReader(task, ios::app);
+    string s;
+    string currentLine;
+    string sender;
+    // cout << "Broker is processing n: " << i << " - "<< filename << endl;
+    while (s != "X-From:")
+    {
+        fileReader >> s;
+        if (s == "From:")
+        {
+
+            fileReader >> currentLine; // currentLine = sender
+            sender = currentLine;
+        }
+        if (s == "Cc:" || s == "Bcc:" || s == "To:")
+        {
+            fileReader >> currentLine; // currentLine = receiver
+
+            while (currentLine[currentLine.length() - 1] == ',')
+            {
+                currentLine.pop_back();
+
+                fileWriter << sender << ": " << currentLine + "\n";
+                fileReader >> currentLine;
+            }
+            if (currentLine[currentLine.length() - 1] != ',')
+            {
+                fileWriter << sender << ": " << currentLine + "\n";
+            }
+        }
+    }
+    fileReader.close();
+    fileWriter.close();
+    cout << "Worker " << this->get_sub_name() << " finishes running task" << endl;
 }
