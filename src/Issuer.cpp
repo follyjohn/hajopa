@@ -45,12 +45,12 @@ void Issuer::set_name(string name)
 
 void Issuer::publish(HMessage *message, Channel *chanel)
 {
-    cout << "Issuer: " << this->name << " publish message: " << message->get_content() << " on channel: " << chanel->get_uid() << endl;
+    // cout << "Issuer: " << this->name << " publish message: " << message->get_content() << " on channel: " << chanel->get_uid() << endl;
     this->messageBus->onGetMessage(message, chanel);
 }
 
 void Issuer::notify()
 {
-    cout << "Issuer: " << this->name << " notify bus " << this->messageBus->getName() << endl;
+    // cout << "Issuer: " << this->name << " notify bus " << this->messageBus->getName() << endl;
     this->messageBus->onNotify();
 }

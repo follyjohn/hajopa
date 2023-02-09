@@ -14,6 +14,7 @@ class  Worker: public Issuer, public Subscriber {
 	private:
 		WorkerStatus status;
         string intermediary_file;
+        HMessage current_task;
 
 	public:
 		Worker();

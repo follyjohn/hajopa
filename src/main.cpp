@@ -23,14 +23,14 @@ int main()
 
     MessageBus *messageBus = new MessageBus("mb-1", "Message Box");
 
-    const int number_of_threads = 5;
+    int number_of_threads = 16;
 
     Broker *broker = new Broker(messageBus , "broker-1", "Broker 1");
     Channel *bkchannel = new Channel("c-bk", "Broker Inbox Channel");
     messageBus->addSubscriber(broker);
     broker->subscribe(bkchannel);
 
-    broker->generate_tasks("devmaildir");
+    broker->generate_tasks("maildir");
 
     map<Worker *, Channel*> worker_map;
 
@@ -45,10 +45,10 @@ int main()
 
     vector<thread> threads;
 
-    for (int i = 0; i < number_of_threads; i++)
+    for (auto &pair : worker_map)
     {
         // should be run in parallel and wait for tasks
-        threads.push_back(thread(&Worker::run, worker_map.begin()->first));
+        threads.push_back(thread(&Worker::run, pair.first));
     }
 
     // run workers in parallel
@@ -58,9 +58,13 @@ int main()
         {
             if (pair.first->get_status() == WorkerStatus::Stopped)
             {
-                broker->publish(new HMessage(broker->get_task(), bkchannel), pair.second);
-                broker->notify();
-                break;
+                string task = broker->get_task();
+                if(task!=""){
+                    broker->publish(new HMessage(task, bkchannel), pair.second);
+                    broker->notify();
+                    break;
+                }
+
             }
         }
     }
@@ -76,20 +80,24 @@ int main()
                 all_workers_stopped = false;
                 break;
             }
-            else pair.first->finish();
+            // else pair.first->finish();
         }
         if (all_workers_stopped)
         {
             break;
         }
+    }
 
+    for (auto &pair : worker_map)
+    {
+        pair.first->finish();
     }
 
     for (auto &t : threads)
     {
         // all threads should be joined
         // all workers should be stopped and killed
-        t.join();
+        t.detach();
     }
 
     vector<string> intermediary_files;

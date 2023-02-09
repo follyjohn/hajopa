@@ -24,6 +24,7 @@ void HMessage::run_payload()
 
 HMessage::HMessage()
 {
+    this->content = "";
 }
 
 HMessage::~HMessage()
