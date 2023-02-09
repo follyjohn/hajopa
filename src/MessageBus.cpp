@@ -83,9 +83,9 @@ void MessageBus::onGetMessage(HMessage *message, Channel * channel)
 
 void MessageBus::onNotify()
 {
-    // std::unique_lock<std::mutex> lck(message_queu_mutex);
-    // this->ready = true;
-    // this->cv.wait(lck, [this] { return this->ready; });
+    std::unique_lock<std::mutex> lck(message_queu_mutex);
+    this->ready = true;
+    this->cv.wait(lck, [this] { return this->ready; });
     while (!this->messagesQueue.empty()) {
         tuple<Channel*, HMessage*> message = this->messagesQueue.front();
         this->messagesQueue.pop();
@@ -99,7 +99,7 @@ void MessageBus::onNotify()
             }
         }
     }
-    // this->ready = true;
-    // lck.unlock();
-    // this->cv.notify_one();
+    this->ready = true;
+    lck.unlock();
+    this->cv.notify_one();
 }

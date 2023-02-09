@@ -30,7 +30,7 @@ int main()
     messageBus->addSubscriber(broker);
     broker->subscribe(bkchannel);
 
-    broker->generate_tasks("maildir");
+    broker->generate_tasks("devmaildir");
 
     map<Worker *, Channel*> worker_map;
 
@@ -51,9 +51,19 @@ int main()
         threads.push_back(thread(&Worker::run, pair.first));
     }
 
+    int total_tasks = broker->get_tasks_size();
+
     // run workers in parallel
     while (broker->get_tasks_size() > 0)
     {
+        // display progress bar
+        cout << "Processing : " << 100 - ((broker->get_tasks_size() * 100) / total_tasks) << "% ["
+             << string(100 - ((broker->get_tasks_size() * 100) / total_tasks), '#')
+             << string((broker->get_tasks_size() * 100) / total_tasks, ' ') << "]"
+             << " [" << total_tasks - broker->get_tasks_size() << "/" << total_tasks << "] files"
+             << "\r";
+        cout.flush();
+
         for (auto &pair : worker_map)
         {
             if (pair.first->get_status() == WorkerStatus::Stopped)
