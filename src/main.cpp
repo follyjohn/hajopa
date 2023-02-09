@@ -23,7 +23,7 @@ int main()
 
     MessageBus *messageBus = new MessageBus("mb-1", "Message Box");
 
-    int number_of_threads = 16;
+    int number_of_threads = 6;
 
     Broker *broker = new Broker(messageBus , "broker-1", "Broker 1");
     Channel *bkchannel = new Channel("c-bk", "Broker Inbox Channel");

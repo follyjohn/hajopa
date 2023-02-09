@@ -5,7 +5,7 @@
 # Compiler settings - Can be customized.
 CC = g++
 CXXFLAGS = -std=c++17 -lstdc++fs
-LDFLAGS =
+LDFLAGS = -lpthread
 
 # Makefile settings - Can be customized.
 APPNAME = hajopa
