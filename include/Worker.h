@@ -7,7 +7,7 @@
 
 using namespace std;
 
-enum class WorkerStatus { Running, Stopped, Paused, Error, Unknown };
+enum class WorkerStatus { Running, Stopped, Paused, Error, Unknown, Finished };
 
 class  Worker: public Issuer, public Subscriber {
 
@@ -23,6 +23,7 @@ class  Worker: public Issuer, public Subscriber {
         virtual void stop();
         virtual void pause();
         virtual void resume();
+        virtual void finish();
         virtual WorkerStatus get_status();
         virtual void set_status(WorkerStatus status);
         virtual void run_task(string task);

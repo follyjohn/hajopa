@@ -25,6 +25,13 @@ void Worker::run()
 {
     this->status = WorkerStatus::Running;
     cout << "Worker is running" << endl;
+    while (this->status != WorkerStatus::Finished)
+    {
+        // tous les appels de run_task sont fait dans le thread du broker
+
+    }
+
+
 
 }
 
@@ -57,6 +64,12 @@ void Worker::set_status(WorkerStatus status)
     this->status = status;
 }
 
+void Worker::finish()
+{
+    this->status = WorkerStatus::Finished;
+    cout << "Worker is finished" << endl;
+}
+
 void Worker::update(HMessage *message)
 {
     cout << "Worker: " << this->get_sub_name() << " received message: " << message->get_content() << endl;
@@ -68,7 +81,7 @@ void Worker::update(HMessage *message)
     // wait for new call from broker
 }
 
-    void Worker::run_task(string task)
+void Worker::run_task(string task)
 {
     cout << "Worker " << this->get_sub_name() <<" starts running task" << endl;
     ofstream fileWriter(this->intermediary_file, ios::app);

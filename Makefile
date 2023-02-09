@@ -74,6 +74,11 @@ cleanw:
 cleandepw:
 	$(DEL) $(DEP)
 
+# Clean all files with the extension .txt
+.PHONY: cleantxt
+cleantxt:
+	find . -name "*.txt" -type f -delete
+
 #---------------------------------
 # IMPLICITE TARGETS RULLES
 #---------------------------------
