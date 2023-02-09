@@ -16,21 +16,28 @@
 using namespace std;
 
 
-int main()
+int main(int argc, char *argv[])
 {
+    if(argc != 3)
+    {
+        cout << "Invalid number of arguments" << endl;
+        cout << "Usage: ./hajopa <number of threads> <mails directory path>" << endl;
+        return 1;
+    }
     time_t start, end;
     time(&start);
 
     MessageBus *messageBus = new MessageBus("mb-1", "Message Box");
 
-    int number_of_threads = 6;
+    int number_of_threads = atoi(argv[1]);
+    string maildir = argv[2];
 
     Broker *broker = new Broker(messageBus , "broker-1", "Broker 1");
     Channel *bkchannel = new Channel("c-bk", "Broker Inbox Channel");
     messageBus->addSubscriber(broker);
     broker->subscribe(bkchannel);
 
-    broker->generate_tasks("devmaildir");
+    broker->generate_tasks(maildir);
 
     map<Worker *, Channel*> worker_map;
 
