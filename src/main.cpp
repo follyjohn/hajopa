@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
                 if(task!=""){
                     broker->publish(new HMessage(task, bkchannel), pair.second);
                     broker->notify();
-                    break;
                 }
 
             }
