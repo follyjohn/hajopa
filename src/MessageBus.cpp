@@ -3,10 +3,13 @@
 #include <queue>
 #include <tuple>
 #include <vector>
-using namespace std;
 #include <condition_variable>
+#include <iostream>
 #include <mutex>
+#include <string>
 #include <thread>
+
+using namespace std;
 
 MessageBus::MessageBus()
 {

@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     broker->subscribe(bkchannel);
 
     broker->generate_tasks(maildir);
+    int total_tasks = broker->get_tasks_size();
 
     map<Worker *, Channel*> worker_map;
 
@@ -54,20 +55,17 @@ int main(int argc, char *argv[])
 
     for (auto &pair : worker_map)
     {
-        // should be run in parallel and wait for tasks
         threads.push_back(thread(&Worker::run, pair.first));
     }
 
-    int total_tasks = broker->get_tasks_size();
-
-    // run workers in parallel
+    cout << "Workers started processing tasks" << endl;
     while (broker->get_tasks_size() > 0)
     {
         // display progress bar
         cout << "Processing : " << 100 - ((broker->get_tasks_size() * 100) / total_tasks) << "% ["
              << string(100 - ((broker->get_tasks_size() * 100) / total_tasks), '#')
              << string((broker->get_tasks_size() * 100) / total_tasks, ' ') << "]"
-             << " [" << total_tasks - broker->get_tasks_size() << "/" << total_tasks << "] files"
+             << " [" << total_tasks - broker->get_tasks_size() + 1 << "/" << total_tasks << "] files"
              << "\r";
         cout.flush();
 
@@ -86,6 +84,8 @@ int main(int argc, char *argv[])
         }
     }
 
+    cout << endl;
+
     // wait for workers to finish
     while (true)
     {
@@ -97,7 +97,6 @@ int main(int argc, char *argv[])
                 all_workers_stopped = false;
                 break;
             }
-            // else pair.first->finish();
         }
         if (all_workers_stopped)
         {
@@ -112,10 +111,11 @@ int main(int argc, char *argv[])
 
     for (auto &t : threads)
     {
-        // all threads should be joined
-        // all workers should be stopped and killed
         t.detach();
     }
+
+
+    cout << "All workers finished processing tasks" << endl;
 
     vector<string> intermediary_files;
     for (int i = 0; i < number_of_threads; i++)
@@ -123,14 +123,15 @@ int main(int argc, char *argv[])
         intermediary_files.push_back("inter_file_" + to_string(i) + ".txt");
     }
 
-    // reduce intermediary files
+    // join intermediary files
     broker->join_intermediary_files(intermediary_files, "mega_file.txt");
 
+    // reduce intermediary file
     broker->reduce_intermediary_file("mega_file.txt", "final_file.txt");
 
     time(&end);
     double time_taken = double(end - start);
-    cout << "Time taken by program is : " << fixed << time_taken << setprecision(5) << " sec \n";
+    cout << "Time taken by program is : " << fixed << time_taken << setprecision(2) << " secs \n";
 
     return 0;
 }
