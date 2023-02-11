@@ -15,9 +15,9 @@ class  Worker: public Issuer, public Subscriber {
 		WorkerStatus status;
         string intermediary_file;
         HMessage current_task;
+        ofstream outputFile;
 
-	public:
-		Worker();
+    public : Worker();
         Worker(WorkerStatus status, MessageBus * messageBus, string uid, string name, string intermediary_file);
         ~Worker();
         virtual void run();

@@ -28,6 +28,7 @@ void Worker::run()
 {
 
     //cout << "Worker is running" << endl;
+    this->outputFile = ofstream(this->intermediary_file);
     while (this->status != WorkerStatus::Finished)
     {
         // tous les appels de run_task sont fait dans le thread du broker
@@ -36,8 +37,8 @@ void Worker::run()
             //cout << "Worker is running task: " << this->current_task.get_content() << endl;
             this->run_task(this->current_task.get_content());
             this->current_task = HMessage();
-            this->publish(new HMessage("task finished"), this->current_task.get_sender_channel());
-            this->notify();
+            // this->publish(new HMessage("task finished"), this->current_task.get_sender_channel());
+            // this->notify();
             this->status = WorkerStatus::Stopped;
             //cout << "Worker is stopped" << endl;
         }
@@ -76,6 +77,7 @@ void Worker::set_status(WorkerStatus status)
 void Worker::finish()
 {
     this->status = WorkerStatus::Finished;
+    this->outputFile.close();
     //cout << "Worker is finished" << endl;
 }
 
@@ -90,7 +92,6 @@ void Worker::update(HMessage *message)
 void Worker::run_task(string task)
 {
     //cout << "Worker " << this->get_sub_name() <<" starts running task" << endl;
-    ofstream fileWriter(this->intermediary_file, ios::app);
     ifstream fileReader(task, ios::app);
     string s;
     string currentLine;
@@ -113,16 +114,15 @@ void Worker::run_task(string task)
             {
                 currentLine.pop_back();
 
-                fileWriter << sender << ": " << currentLine + "\n";
+                this->outputFile << sender << ": " << currentLine + "\n";
                 fileReader >> currentLine;
             }
             if (currentLine[currentLine.length() - 1] != ',')
             {
-                fileWriter << sender << ": " << currentLine + "\n";
+                this->outputFile << sender << ": " << currentLine + "\n";
             }
         }
     }
     fileReader.close();
-    fileWriter.close();
     //cout << "Worker " << this->get_sub_name() << " finishes running task" << endl;
 }

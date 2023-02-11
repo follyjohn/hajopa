@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
     while (broker->get_tasks_size() > 0)
     {
         // display progress bar
-        cout << "Processing : " << 100 - ((broker->get_tasks_size() * 100) / total_tasks) << "% ["
-             << string(100 - ((broker->get_tasks_size() * 100) / total_tasks), '#')
-             << string((broker->get_tasks_size() * 100) / total_tasks, ' ') << "]"
-             << " [" << total_tasks - broker->get_tasks_size() + 1 << "/" << total_tasks << "] files"
-             << "\r";
-        cout.flush();
+        // cout << "Processing : " << 100 - ((broker->get_tasks_size() * 100) / total_tasks) << "% ["
+        //      << string(100 - ((broker->get_tasks_size() * 100) / total_tasks), '#')
+        //      << string((broker->get_tasks_size() * 100) / total_tasks, ' ') << "]"
+        //      << " [" << total_tasks - broker->get_tasks_size() + 1 << "/" << total_tasks << "] files"
+        //      << "\r";
+        // cout.flush();
 
         for (auto &pair : worker_map)
         {
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    cout << endl;
+    // cout << endl;
 
     // wait for workers to finish
     while (true)
@@ -126,11 +126,11 @@ int main(int argc, char *argv[])
     broker->join_intermediary_files(intermediary_files, "mega_file.txt");
 
     // reduce intermediary file
-    broker->reduce_intermediary_file("mega_file.txt", "final_file.txt");
+    // broker->reduce_intermediary_file("mega_file.txt", "final_file.txt");
 
     time(&end);
     double time_taken = double(end - start);
-    cout << "Time taken by program is : " << fixed << time_taken << setprecision(2) << " secs \n";
+    cout << "Time taken by program is : " << fixed << time_taken << setprecision(4) << " secs \n";
 
     return 0;
 }
