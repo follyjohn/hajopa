@@ -87,3 +87,12 @@ void HBroker::join_intermediary_files(vector<string> intermediary_files, string 
     outputFile.close();
     cout << "Broker finishes joining intermediary files" << endl;
 }
+
+void HBroker::update(HMessage *message)
+{
+    cout << "Broker receives message from worker" << endl;
+    if(message->get_content() == "finished"){
+        this->publish(new HMessage(this->get_task(), this->get_primmary_channel()), message->get_sender_channel());
+        this->notify();
+    }
+}

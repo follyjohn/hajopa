@@ -22,6 +22,7 @@ public:
     void generate_tasks(string maildir);
     void join_intermediary_files(vector<string> intermediary_files, string final_file);
     int get_tasks_size();
+    void update(HMessage* message);
     string get_task();
 };
 #endif

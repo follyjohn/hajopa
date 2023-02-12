@@ -35,10 +35,9 @@ void HWorker::run()
             //cout << "HWorker is running task: " << this->current_task.get_content() << endl;
             this->run_task(this->current_task.get_content());
             this->current_task = HMessage();
-            // this->publish(new HMessage("task finished"), this->current_task.get_sender_channel());
-            // this->notify();
             this->status = WorkerStatus::Stopped;
-            //cout << "HWorker is stopped" << endl;
+            // this->publish(new HMessage("finished", this->get_primmary_channel()), this->current_task.get_sender_channel());
+            // this->notify();
         }
     }
 }

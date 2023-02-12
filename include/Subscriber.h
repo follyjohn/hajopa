@@ -23,6 +23,7 @@ class Subscriber {
         virtual void set_name(string name);
         virtual string get_sub_uid();
         virtual string get_sub_name();
+        virtual Channel* get_primmary_channel();
 
     private:
         string uid;

@@ -1,4 +1,5 @@
 #include "../include/Subscriber.h"
+#include "../include/Channel.h"
 
 #include <iostream>
 #include <thread>
@@ -71,4 +72,9 @@ void Subscriber::update(HMessage* message)
 vector<Channel*> Subscriber::get_channels()
 {
     return this->channels;
+}
+
+Channel* Subscriber::get_primmary_channel()
+{
+    return this->channels[0];
 }
