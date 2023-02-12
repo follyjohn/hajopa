@@ -3,47 +3,24 @@
 #include <iostream>
 #include <sstream>
 #include <thread>
+#include <vector>
 using namespace std;
 
 Worker::Worker(): Issuer(), Subscriber()
 {
-    this->current_task = HMessage();
     this->status = WorkerStatus::Unknown;
 }
 
-Worker::Worker(WorkerStatus status, MessageBus *messageBus, string uid, string name, string intermediary_file)
+Worker::Worker(WorkerStatus status, MessageBus *messageBus, string uid, string name)
     : Issuer(messageBus, uid, name), Subscriber(uid, name)
 {
-    this->current_task = HMessage();
-    this->intermediary_file = intermediary_file;
     this->status = status;
-
 }
 
 Worker::~Worker()
 {
 }
 
-void Worker::run()
-{
-
-    //cout << "Worker is running" << endl;
-    this->outputFile = ofstream(this->intermediary_file);
-    while (this->status != WorkerStatus::Finished)
-    {
-        // tous les appels de run_task sont fait dans le thread du broker
-        if(this->current_task.get_content() != "")
-        {
-            //cout << "Worker is running task: " << this->current_task.get_content() << endl;
-            this->run_task(this->current_task.get_content());
-            this->current_task = HMessage();
-            // this->publish(new HMessage("task finished"), this->current_task.get_sender_channel());
-            // this->notify();
-            this->status = WorkerStatus::Stopped;
-            //cout << "Worker is stopped" << endl;
-        }
-    }
-}
 
 void Worker::stop()
 {
@@ -77,52 +54,5 @@ void Worker::set_status(WorkerStatus status)
 void Worker::finish()
 {
     this->status = WorkerStatus::Finished;
-    this->outputFile.close();
     //cout << "Worker is finished" << endl;
-}
-
-void Worker::update(HMessage *message)
-{
-    this->status = WorkerStatus::Running;
-    //cout << "Worker: " << this->get_sub_name() << " received message: " << message->get_content() << endl;
-    this->current_task = *message;
-    // wait for new call from broker
-}
-
-void Worker::run_task(string task)
-{
-    //cout << "Worker " << this->get_sub_name() <<" starts running task" << endl;
-    ifstream fileReader(task, ios::app);
-    string s;
-    string currentLine;
-    string sender;
-    // //cout << "Broker is processing n: " << i << " - "<< filename << endl;
-    while (s != "X-From:")
-    {
-        fileReader >> s;
-        if (s == "From:")
-        {
-
-            fileReader >> currentLine; // currentLine = sender
-            sender = currentLine;
-        }
-        if (s == "Cc:" || s == "Bcc:" || s == "To:")
-        {
-            fileReader >> currentLine; // currentLine = receiver
-
-            while (currentLine[currentLine.length() - 1] == ',')
-            {
-                currentLine.pop_back();
-
-                this->outputFile << sender << ": " << currentLine + "\n";
-                fileReader >> currentLine;
-            }
-            if (currentLine[currentLine.length() - 1] != ',')
-            {
-                this->outputFile << sender << ": " << currentLine + "\n";
-            }
-        }
-    }
-    fileReader.close();
-    //cout << "Worker " << this->get_sub_name() << " finishes running task" << endl;
 }
