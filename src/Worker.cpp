@@ -25,20 +25,17 @@ Worker::~Worker()
 void Worker::stop()
 {
     this->status = WorkerStatus::Stopped;
-    //cout << "Worker is stopped" << endl;
 }
 
 
 void Worker::pause()
 {
     this->status = WorkerStatus::Paused;
-    //cout << "Worker is paused" << endl;
 }
 
 void Worker::resume()
 {
     this->status = WorkerStatus::Running;
-    //cout << "Worker is resumed" << endl;
 }
 
 WorkerStatus Worker::get_status()
@@ -54,5 +51,5 @@ void Worker::set_status(WorkerStatus status)
 void Worker::finish()
 {
     this->status = WorkerStatus::Finished;
-    //cout << "Worker is finished" << endl;
+    cout << this->get_sub_name() << " finished" << endl;
 }

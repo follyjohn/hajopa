@@ -9,8 +9,6 @@ using namespace std;
 Subscriber::Subscriber()
 {
     this->channels = vector<Channel*>();
-    // start a new thread for this subscriber
-    // this->thread = new thread();
 
 }
 

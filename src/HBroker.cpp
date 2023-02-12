@@ -38,7 +38,7 @@ string HBroker::get_task()
 
 void HBroker::generate_tasks(string maildir)
 {
-    cout << "HBroker starts generating tasks" << endl;
+    cout << "Broker starts generating tasks" << endl;
     // list recursively all files in maildir
     for (const auto &p : std::filesystem::recursive_directory_iterator(maildir))
     {
@@ -48,12 +48,12 @@ void HBroker::generate_tasks(string maildir)
         }
     }
 
-    cout << "HBroker finishes generating tasks" << endl;
+    cout << "Broker finishes generating tasks" << endl;
 }
 
 void HBroker::join_intermediary_files(vector<string> intermediary_files, string final_file)
 {
-    cout << "Le courtier commence à joindre les fichiers intermédiaires" << endl;
+    cout << "Broker starts joining intermediary files" << endl;
 
     ofstream outputFile(final_file);
     map<string, map<string, int>> emailMap;
@@ -85,5 +85,5 @@ void HBroker::join_intermediary_files(vector<string> intermediary_files, string 
     }
 
     outputFile.close();
-    cout << "Le courtier termine de joindre les fichiers intermédiaires" << endl;
+    cout << "Broker finishes joining intermediary files" << endl;
 }

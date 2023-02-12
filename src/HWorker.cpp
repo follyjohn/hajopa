@@ -26,7 +26,6 @@ HWorker::~HWorker()
 void HWorker::run()
 {
 
-    //cout << "HWorker is running" << endl;
     this->outputFile = ofstream(this->intermediary_file);
     while (this->status != WorkerStatus::Finished)
     {
@@ -49,25 +48,21 @@ void HWorker::finish()
 {
     this->status = WorkerStatus::Finished;
     this->outputFile.close();
-    //cout << "HWorker is finished" << endl;
+    cout << this->get_sub_name() << " finished" << endl;
 }
 
 void HWorker::update(HMessage *message)
 {
     this->status = WorkerStatus::Running;
-    //cout << "HWorker: " << this->get_sub_name() << " received message: " << message->get_content() << endl;
     this->current_task = *message;
-    // wait for new call from broker
 }
 
 void HWorker::run_task(string task)
 {
-    //cout << "HWorker " << this->get_sub_name() <<" starts running task" << endl;
     ifstream fileReader(task, ios::app);
     string s;
     string currentLine;
     string sender;
-    // //cout << "Broker is processing n: " << i << " - "<< filename << endl;
     while (s != "X-From:")
     {
         fileReader >> s;
@@ -95,5 +90,4 @@ void HWorker::run_task(string task)
         }
     }
     fileReader.close();
-    //cout << "HWorker " << this->get_sub_name() << " finishes running task" << endl;
 }
