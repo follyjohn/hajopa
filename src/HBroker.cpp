@@ -30,6 +30,9 @@ int HBroker::get_tasks_size()
 
 string HBroker::get_task()
 {
+    if(this->tasks.empty()){
+        return "";
+    }
     string task = this->tasks.back();
     this->tasks.pop_back();
     return task;
@@ -56,7 +59,7 @@ void HBroker::join_intermediary_files(vector<string> intermediary_files, string 
     cout << "Broker starts joining intermediary files" << endl;
 
     ofstream outputFile(final_file);
-    map<string, map<string, int>> emailMap;
+    unordered_map<string, unordered_map<string, int>> emailMap;
 
     for (const string &intermediate_file : intermediary_files)
     {
@@ -74,7 +77,7 @@ void HBroker::join_intermediary_files(vector<string> intermediary_files, string 
     for (const auto &emailCount : emailMap)
     {
         const string &key = emailCount.first;
-        const map<string, int> &value = emailCount.second;
+        const unordered_map<string, int> &value = emailCount.second;
 
         outputFile << key << " ";
         for (const auto &emailCnt : value)
