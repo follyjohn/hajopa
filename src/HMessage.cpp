@@ -40,5 +40,3 @@ Channel* HMessage::get_sender_channel()
 {
     return this->senderChannel;
 }
-
-// https://stackoverflow.com/questions/266168/simple-example-of-threading-in-c
