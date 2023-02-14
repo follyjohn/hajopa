@@ -1,20 +1,30 @@
 
 # Projet de PR72
-> Note 
-> Compilable avec `g++` et `clang`
 
+## Introduction
+
+Un simple make suffit pour compiler le projet.
+
+```bash
+make
+```
+
+Le programme prend en paramètre le chemin vers le répertoire contenant les e-mails.
+
+```bash
+./hajopa 1 /path/to/enron_mail_dir
+```
+
+Pour supprimer les fichiers intermédiaires et le fichier de sortie, il suffit de faire :
+
+```bash
+make cleantxt
+```
 
 > Note
-> Il ya 500 000 fichiers, chaque fichier contier les info sur un mail,
-> Le dispatcher crer les workers et les fichiers intermediaires,
-> Lorsqu'un worker est crer il connait le fichier ou il ecrit.
-> Ensuite ils communique a chaque 
+> Compilable avec `g++` et `clang`
 
-> get_nproc pour connnaitre le nombre de thread dispo
-
-> On vas fonctionner avec 100 fichier en dev
-
-
+## Description du projet
 
 L'objectif du projet est d'analyser un corpus d'e-mails pour en extraire des informations. L'analyse doit être parallélisée en limitant le nombre de tâches à un une valeur raisonnable dépendante du nombre de processeurs/threads de la machine.
 
@@ -119,4 +129,3 @@ Il est fortement conseillé de commencer le projet en y travaillant beaucoup au 
 Il est également fortement conseillé de poser des questions à l'intervenant de TP : le sujet est complexe et il vaut mieux déjouer le plus vite possible les incompréhensions/zones floues pour vous.
 
 Enfin, il vous sera nécessaire de travailler ensemble plutôt que chacun de son côté, mettez donc en oeuvre une méthode de gestion de projet pour vous assurer du bon déroulement (répartition des tâches, suivi, transmission des acquis à vos camarades du groupes, etc.).
-
